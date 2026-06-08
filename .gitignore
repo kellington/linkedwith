@@ -3,6 +3,7 @@
 *.csv
 *.HTML
 *.html
+!project/status/*.html
 
 data/
 output/
