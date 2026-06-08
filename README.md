@@ -1,22 +1,6 @@
-# LinkedIn Analysis
+# LinkedIn Simple Report
 
 A simple tool to let me get more out of LinkedIn data.  At some point it might incldue a full database and an app - but for now, want something simple
-
-Using GSD framework with Claude Code - to create a simple skill
-
-
-## Initial IDEA:
-
-Why Every Cold Application You Send Is a Waste of Time (And What Actually Works)
-https://youtu.be/AoA9h3TjxE0?si=GqgZHg_aHt-_J4cd
-
-https://natesnewsletter.substack.com/p/cold-applications-have-a-2-response?r=1z4sm5&utm_campaign=post&utm_medium=web
-
-### Nate's Plan
-see:
-- project/ideas for prompts
-- https://network-intelligence.lovable.app for interactive app
-
 
 ### Data
 Before any of this works, you need your data. LinkedIn buries the export option, so here's the path: Settings & Privacy → Data Privacy → Get a copy of your data → select “Download larger data archive” → request the archive. LinkedIn says it takes 24 hours; in my experience it's closer to 15 minutes for the initial files, though the full message history can take longer. You'll get a zip file with CSVs covering connections, messages, endorsements, recommendations, positions, skills, and profile data. That's your raw material.
@@ -35,6 +19,5 @@ Before any of this works, you need your data. LinkedIn buries the export option,
   ### Running Direct
 
  ```
- python linkedwith.py data/Complete_LinkedInDataExport_02-21-2026.zip.zip
+ python linkedwith.py data/LinkedIn/Complete_LinkedInDataExport_05-24-2026.zip.zip
  ```
- 
