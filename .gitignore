@@ -1,0 +1,21 @@
+# Personal LinkedIn data — never commit
+*.zip
+*.csv
+*.HTML
+*.html
+
+data/
+output/
+
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+dist/
+*.egg-info/
+
+# OS
+.DS_Store
+*/.DS_Store
