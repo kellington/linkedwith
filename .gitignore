@@ -3,7 +3,9 @@
 *.csv
 *.HTML
 *.html
+
 !project/status/*.html
+!AI+PROCESS.html
 
 data/
 output/

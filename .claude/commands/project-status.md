@@ -168,3 +168,25 @@ From CLAUDE.md — keep this as a permanent reference:
 - Check `ls data/LinkedIn/` to find the actual export filename — don't hardcode it
 - The "How to Run" section is the most valuable thing on the page — make it clear and complete
 - After writing the file, confirm the path and list the sections included
+
+## Also write STATUS-SUMMARY.md
+
+After writing the HTML file, write (or overwrite) a summary file at `project/status/STATUS-SUMMARY.md` (create the directory if it doesn't exist).
+
+Use this exact format — YAML frontmatter only, no markdown body:
+
+```
+---
+name: LinkedWith
+tagline: <one sentence — what this project is, derived from the files you just read>
+group: Utilities
+profile: Utility
+priority: 11
+status: <one sentence — the most important thing about current state right now>
+generated: <today's date YYYY-MM-DD>
+---
+```
+
+- `tagline`: purpose of the project — stable, changes rarely
+- `status`: current state — stable/active/last run date
+- Overwrite every run — no date suffix, always one file
