@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinkedWith — Status 2026-08-19</title>
+<style>
+  :root {
+    --blue: #0077b5; --slate: #1e293b; --green: #16a34a; --amber: #d97706; --red: #dc2626;
+    --bg: #f9fafb; --card: #ffffff; --line: #e5e7eb; --ink: #1f2937; --muted: #6b7280;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); line-height: 1.55;
+         font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 1.25rem 3rem; }
+
+  header.bar { background: var(--slate); color: #f8fafc; border-bottom: 4px solid var(--blue); }
+  header.bar .wrap { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+  .title { display: flex; flex-wrap: wrap; align-items: baseline; gap: .75rem; }
+  h1 { margin: 0; font-size: 1.6rem; letter-spacing: -.02em; }
+  .tagline { color: #cbd5e1; font-size: .95rem; margin: .35rem 0 .9rem; }
+  .badges { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .badge { font-size: .74rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+           padding: .25rem .6rem; border-radius: 999px; }
+  .badge.type { background: rgba(0,119,181,.22); color: #7dd3fc; border: 1px solid #0369a1; }
+  .badge.pass { background: rgba(22,163,74,.2); color: #86efac; border: 1px solid #15803d; }
+  .badge.date { background: rgba(255,255,255,.08); color: #cbd5e1; border: 1px solid #475569; }
+
+  .pills { display: grid; gap: .6rem; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+           margin: 1.5rem 0 2rem; }
+  .pill { background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--blue);
+          border-radius: 6px; padding: .6rem .8rem; }
+  .pill .k { font-size: .68rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 700; }
+  .pill .v { font-size: .88rem; margin-top: .15rem; word-break: break-word; }
+
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+            padding: 1.1rem 1.3rem; margin-bottom: 1rem; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+  h2 { font-size: 1.05rem; color: var(--slate); margin: 0 0 .7rem;
+       padding-bottom: .45rem; border-bottom: 2px solid var(--line); }
+  h2 .n { color: var(--blue); font-weight: 800; margin-right: .45rem; }
+  h3 { font-size: .82rem; text-transform: uppercase; letter-spacing: .06em;
+       color: var(--muted); margin: 1.1rem 0 .4rem; }
+  p { margin: .4rem 0 .7rem; }
+  ul { margin: .3rem 0 .7rem; padding-left: 1.25rem; }
+  li { margin: .2rem 0; }
+
+  table { border-collapse: collapse; width: 100%; font-size: .86rem; margin: .4rem 0 .6rem; }
+  th, td { text-align: left; padding: .38rem .55rem; border-bottom: 1px solid var(--line); }
+  th { font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  td code, li code, p code { background: #f1f5f9; border: 1px solid var(--line); border-radius: 4px;
+                             padding: .05em .35em; font-size: .88em;
+                             font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  table.modules td:first-child { white-space: nowrap; }
+
+  pre { background: var(--slate); color: #e2e8f0; border-radius: 6px; padding: .7rem .9rem;
+        overflow-x: auto; margin: .35rem 0 .8rem;
+        font: .82rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .step { border-left: 3px solid var(--blue); padding-left: .9rem; margin-bottom: 1rem; }
+  .step b { color: var(--slate); }
+
+  .note { border-left: 3px solid var(--green); background: #f0fdf4; border-radius: 0 6px 6px 0;
+          padding: .6rem .85rem; font-size: .88rem; }
+  .idea { border-left: 3px solid var(--amber); background: #fffbeb; border-radius: 0 6px 6px 0;
+          padding: .6rem .85rem; margin-bottom: .5rem; font-size: .9rem; }
+  .idea b { color: #92400e; }
+  .gotcha { border-left: 3px solid var(--red); background: #fef2f2; border-radius: 0 6px 6px 0;
+            padding: .6rem .85rem; margin-bottom: .5rem; font-size: .9rem; }
+  .gotcha b { color: #991b1b; }
+  .warn { border-left: 3px solid var(--amber); background: #fffbeb; border-radius: 0 6px 6px 0;
+          padding: .6rem .85rem; font-size: .88rem; margin-top: .6rem; }
+
+  footer { text-align: center; color: var(--muted); font-size: .8rem;
+           margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+  .new { display: inline-block; font-size: .62rem; font-weight: 800; letter-spacing: .06em;
+         text-transform: uppercase; background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd;
+         border-radius: 3px; padding: .05em .3em; vertical-align: middle; margin-left: .35em; }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <div class="title"><h1>LinkedWith</h1></div>
+    <div class="tagline">Turn LinkedIn exports into a searchable, offline-ready contact list</div>
+    <div class="badges">
+      <span class="badge type">Personal Utility — Run When Needed</span>
+      <span class="badge pass">96/96 Tests Passing</span>
+      <span class="badge date">2026-08-19</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="pills">
+    <div class="pill"><div class="k">Language</div><div class="v">Python 3.12 (uv managed)</div></div>
+    <div class="pill"><div class="k">Output</div><div class="v"><code>output/LinkedWith.HTML</code> — self-contained, offline, iPhone-ready</div></div>
+    <div class="pill"><div class="k">Tests</div><div class="v">96 passing (was 86 at v1.0)</div></div>
+    <div class="pill"><div class="k">Last data export</div><div class="v"><code>Complete_LinkedInDataExport_08-18-2026.zip.zip</code> — 1 day old</div></div>
+    <div class="pill"><div class="k">Connections in store</div><div class="v">761</div></div>
+    <div class="pill"><div class="k">Last commit</div><div class="v"><code>60f6639</code> Update diary-2026-08.md</div></div>
+  </div>
+
+  <section>
+    <h2><span class="n">1</span>Purpose</h2>
+    <p>LinkedWith parses a LinkedIn data export ZIP into an enriched, searchable HTML contact list.
+    It combines connections, message history, and user-provided contact info (email, phone, notes)
+    into a single self-contained HTML page — viewable offline and on iPhone via an HTML Preview app.
+    The goal: turn frustrating LinkedIn data into a simple contact list enriched with interaction
+    history and personal notes.</p>
+  </section>
+
+  <section>
+    <h2><span class="n">2</span>What One Run Builds</h2>
+    <ul>
+      <li>Reads <code>Connections.csv</code> and <code>messages.csv</code> from the LinkedIn ZIP</li>
+      <li>Merges <code>data/contact_info.csv</code> — your own email / phone / notes</li>
+      <li>Writes <code>data/linkedwith.json</code> — the enriched data store, which persists across runs</li>
+      <li>Generates <code>output/LinkedWith.HTML</code> — one file, inline CSS and JS, no internet required</li>
+    </ul>
+
+    <h3>Data in the page</h3>
+    <table>
+      <thead><tr><th>Field</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>First / Last name</td><td>connections</td></tr>
+        <tr><td>Company</td><td>connections</td></tr>
+        <tr><td>Position</td><td>connections</td></tr>
+        <tr><td>Connected on</td><td>connections — default sort, newest first</td></tr>
+        <tr><td>Last message</td><td>messages</td></tr>
+        <tr><td>Email</td><td>contact_info.csv (falls back to the LinkedIn-supplied address)</td></tr>
+        <tr><td>Phone</td><td>contact_info.csv</td></tr>
+        <tr><td>Notes</td><td>contact_info.csv</td></tr>
+        <tr><td>Profile link</td><td>connections</td></tr>
+      </tbody>
+    </table>
+
+    <h3>What the page does <span class="new">rebuilt 2026-08-19</span></h3>
+    <ul>
+      <li><b>Search</b> across name, company, position, email, phone and notes. Multiple words are ANDed and matches are highlighted. <code>/</code> focuses the box, <code>esc</code> clears it</li>
+      <li><b>Filter chips</b> — Messaged, Notes, Email&nbsp;/&nbsp;phone. Chips stack with each other and with the search</li>
+      <li><b>Year dropdown</b> for connection year</li>
+      <li><b>Sort</b> by connected date, last message, name or company. Blanks always sort last</li>
+      <li><b>Two views</b> over the same filtered set — Cards (built for the phone) and Table (sortable columns, sticky header)</li>
+      <li>Tap a name for the LinkedIn profile, an email to compose, a phone to dial, or a company to filter to it</li>
+      <li>Light and dark aware</li>
+    </ul>
+    <div class="note">The rebuild made the file <b>smaller</b> — 207&nbsp;KB vs 289&nbsp;KB — because the rows
+    embed once as a JSON array instead of as repeated table markup.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">3</span>How to Run</h2>
+    <p>What to do when a new export arrives.</p>
+
+    <div class="step">
+      <b>Step 1 — Download fresh LinkedIn data</b>
+      <p>Settings &amp; Privacy → Data Privacy → Get a copy of your data → <i>Download larger data archive</i>.
+      Initial files land in about 15 minutes; full message history can take longer.</p>
+    </div>
+
+    <div class="step">
+      <b>Step 2 — Drop the ZIP into <code>data/</code></b>
+<pre>mv ~/Downloads/Complete_LinkedInDataExport_*.zip data/</pre>
+    </div>
+
+    <div class="step">
+      <b>Step 3 — Run it</b>
+<pre>uv run python linkedwith.py data/Complete_LinkedInDataExport_08-18-2026.zip.zip</pre>
+      <p>Or ask Claude: <i>"run linkedwith"</i> — the skill finds the newest export itself.</p>
+    </div>
+
+    <div class="step">
+      <b>Step 4 — Open the output</b>
+<pre>open output/LinkedWith.HTML</pre>
+      <p>Or copy it to the iPhone and open it with the HTML Preview app.</p>
+    </div>
+
+    <h3>Optional — add contact info</h3>
+    <p>Edit <code>data/contact_info.csv</code>, columns <code>URL, First Name, Last Name, Email, Phone, Notes</code>.
+    URL is the preferred match key; name is the fallback. Re-run to merge.</p>
+
+    <h3>Tests</h3>
+<pre>uv run pytest</pre>
+  </section>
+
+  <section>
+    <h2><span class="n">4</span>Library Modules</h2>
+    <table class="modules">
+      <thead><tr><th>Module</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td><code>extractor.py</code></td><td>Find and read files inside the LinkedIn export ZIP</td></tr>
+        <tr><td><code>parsers.py</code></td><td>Parse Connections.csv — BOM handling, preamble skip, URL keying</td></tr>
+        <tr><td><code>normalizer.py</code></td><td>Normalize profile URLs into stable store keys</td></tr>
+        <tr><td><code>messages.py</code></td><td>Derive the most-recent-message date per connection</td></tr>
+        <tr><td><code>contacts.py</code></td><td>Merge contact_info.csv — URL-primary, name fallback</td></tr>
+        <tr><td><code>store.py</code></td><td>Read / write linkedwith.json atomically; merge without clobbering user fields</td></tr>
+        <tr><td><code>renderer.py</code></td><td>Jinja2 shell + embedded JSON → LinkedWith.HTML</td></tr>
+        <tr><td><code>config.py</code></td><td>Paths, overridable by environment variable</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2><span class="n">5</span>Current Data State</h2>
+    <ul>
+      <li>Latest export: <code>Complete_LinkedInDataExport_08-18-2026.zip.zip</code> — dated 2026-08-18, <b>fresh</b> (1 day old)</li>
+      <li>Also present: <code>Basic_LinkedInDataExport_08-17-2026.zip.zip</code></li>
+      <li>Store: <code>data/linkedwith.json</code> — 761 connections; 743 came from the latest export, 176 have message history</li>
+      <li>18 connections are in the store but no longer in the LinkedIn export — kept deliberately, see constraints</li>
+    </ul>
+    <div class="warn"><b>Note:</b> the ZIPs sit directly in <code>data/</code>, not <code>data/LinkedIn/</code>.
+    Both <code>data/</code> and <code>output/</code> are gitignored — the personal data never leaves the machine.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">6</span>Ideas, Not Commitments</h2>
+    <p>From <code>project/ideas/</code>. v1.1 is the useful thing; these are enhancements if a real use case shows up.</p>
+    <div class="idea"><b>Relationship decay scoring</b> — model how connections go cold over time, on a half-life
+      from message frequency and shared history.</div>
+    <div class="idea"><b>Reciprocity debt ledger</b> — flag who you owe a message, and who owes you.</div>
+    <div class="idea"><b>Warm path discovery</b> — weigh relevance and warmth to find the best route into a target company.</div>
+    <div class="idea"><b>Network intelligence dashboard</b> — a longer one-time analysis run over the full export,
+      including endorsements, recommendations and positions.</div>
+    <div class="idea"><b>Feed into contact-merge</b> — pull LinkedWith data into the contact-merge project so
+      LinkedIn connections and everything else land in one list. <i>Current next step.</i></div>
+  </section>
+
+  <section>
+    <h2><span class="n">7</span>Known Constraints</h2>
+    <div class="gotcha"><b>iPhone output</b> — the HTML must stay self-contained. No CDN, no external fonts,
+      no external JS. Break this and it stops working offline. Profile / mailto / tel links are fine: a link
+      you tap is not a request the page makes.</div>
+    <div class="gotcha"><b>UTF-8 BOM</b> — LinkedIn exports ship UTF-8-sig. Always open CSVs with
+      <code>encoding="utf-8-sig"</code> or the first column header silently breaks.</div>
+    <div class="gotcha"><b>Escaping in the embedded JSON</b> — rows go into a <code>&lt;script&gt;</code> block,
+      so <code>&lt;</code>, <code>&gt;</code> and <code>&amp;</code> must be <code>\u</code>-escaped and passed
+      through Jinja <code>|safe</code>. Autoescape alone produces a blank page.</div>
+    <div class="gotcha"><b>Incremental updates</b> — re-running preserves user-added fields (email, phone, notes).
+      The store merges, it does not replace.</div>
+    <div class="gotcha"><b>"No longer in LinkedIn export"</b> — informational only. Contacts are never deleted
+      from the store, even after they disappear from LinkedIn.</div>
+    <div class="gotcha"><b>No database</b> — the flat JSON store is intentional. No schema migrations, no DB
+      overhead for a single-user personal tool.</div>
+  </section>
+
+  <footer>
+    Generated 2026-08-19 · LinkedWith · Personal Python utility ·
+    derived from README.md, CLAUDE.md, project/diary, project/ideas, git log and a live pytest run
+  </footer>
+
+</div>
+</body>
+</html>

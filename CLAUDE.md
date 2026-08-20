@@ -62,8 +62,12 @@ A personal LinkedIn data tool that parses exported LinkedIn data (ZIP download) 
 
 ### Key Patterns
 - Embed all CSS and JavaScript as `<style>` and `<script>` blocks inside the Jinja2 template — no external requests
-- Sort columns client-side with vanilla JS (no libraries)
-- Default sort by "Connected On" descending set via JS `window.onload`
+- Embed the connections as a single JSON array (`const ROWS = [...]`) and draw the page client-side; the Jinja2 template holds only the shell
+- Escape `<`, `>` and `&` as `\u` sequences in that JSON so no field can close the `<script>` block, and pass it through `|safe` (autoescape would otherwise mangle the JSON)
+- Search, facet chips, year filter and sorting are vanilla JS over that array (no libraries); each row gets one prebuilt lowercased haystack so keystroke filtering never re-joins strings
+- Two views over the same pipeline: cards (mobile) and a sortable table (desktop)
+- Blank values always sort last, in both directions
+- Default sort is "Connected On" descending
 - Key each contact by their LinkedIn profile URL (unique, stable identifier)
 - Merge new connections — update fields if changed, preserve user-added fields (email, phone, notes)
 - Write updated store back atomically (write to `.tmp`, then rename)
