@@ -323,8 +323,9 @@ def test_cli_produces_html_output(sample_zip, tmp_path):
     assert "HTML written to" in result.stdout, f"stdout: {result.stdout!r}"
     content = html_path.read_text(encoding="utf-8")
     assert "<!DOCTYPE html>" in content, "HTML file should contain DOCTYPE declaration"
-    assert '<table id="contacts">' in content, "HTML file should contain contacts table"
-    assert "data-sortable" in content, "HTML file should contain sortable column attributes"
+    assert "const ROWS = [" in content, "HTML file should embed the connection rows"
+    assert 'id="q"' in content, "HTML file should contain the search box"
+    assert '<table id="tbl">' in content, "HTML file should contain the table view"
 
 
 def test_cli_user_fields_survive_reimport(tmp_path, monkeypatch):

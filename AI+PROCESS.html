@@ -158,51 +158,90 @@
     <h2>Project Snapshot</h2>
     <p class="descriptor">What the project is, who it is for, and what problem it addresses.</p>
     <p>A simple tool to let me get more out of LinkedIn data. At some point it might include a full database and an app — but for now, I want something simple.</p>
+    <p>LinkedIn lets you export your data as a ZIP of CSVs, then abandons you there. LinkedWith parses that export into a single self-contained HTML page: every connection, enriched with when I last exchanged messages with them, plus my own email/phone/notes. One file, works offline, readable on the phone.</p>
 
     <h2>The AI Approach</h2>
     <p class="descriptor">The practical reasons AI tools or agents were included in this project.</p>
-    <p>This is just a Claude (Agent) skill that manages some local files.</p>
+    <p>This is just a Claude (Agent) skill that manages some local files. The work is small, fiddly and infrequent — exactly the kind of thing worth automating but not worth spending a weekend on. Running it as a skill means "refresh my contacts" is one instruction, not a remembered sequence of commands.</p>
 
     <h2>How AI Supported the Work</h2>
     <p class="descriptor">Where AI helped with planning, design, coding, analysis, testing, documentation, or review.</p>
     <ul>
-      <li>Generated some parsing scripts</li>
-      <li>Merges data and creates HTML</li>
+      <li>Generated the parsing scripts (ZIP extraction, CSV quirks, URL normalisation)</li>
+      <li>Merges data and creates the HTML</li>
+      <li>Wrote the test suite — 96 tests covering parsing, merge behaviour, and rendering</li>
+      <li>Rebuilt the HTML output (2026-08-19) after I said the first version was ugly and had no functionality: search, filter chips, sorting, card and table views</li>
+      <li>Drove a real browser to check the rebuilt page actually worked, rather than trusting the generated source</li>
     </ul>
 
     <h2>Where Human Judgment Mattered</h2>
     <p class="descriptor">The decisions, corrections, constraints, and tradeoffs that required experience and direction.</p>
     <ul>
-      <li>Interactive — it is a tool meant to create something I can use</li>
+      <li>Interactive — it is a tool meant to create something I can use. I am the only user, so "does this feel right in my hand" is the acceptance test</li>
+      <li>Pointing at a working example rather than describing what I wanted. I had built a contacts page in another project and liked its search and filtering; "make it like that" carried more signal than any amount of specification</li>
+      <li>Calling the first output ugly. It passed every test and did what was asked. That is precisely the gap a person has to close</li>
     </ul>
 
     <h2>Key Process Decisions</h2>
     <p class="descriptor">The important choices that shaped scope, architecture, data, workflow, user experience, or delivery.</p>
+    <ul>
+      <li><strong>One self-contained HTML file.</strong> No server, no CDN, no database. It has to open on a phone with no signal. This constraint decided most of the rest</li>
+      <li><strong>Flat JSON store, keyed by profile URL.</strong> LinkedIn-sourced fields get overwritten on re-import; my own fields (email, phone, notes) never do</li>
+      <li><strong>Merge, don't replace.</strong> A connection that drops out of a later export stays in the store and gets reported, rather than silently vanishing</li>
+      <li><strong>Data-driven page, not generated markup.</strong> The rows embed as a JSON array and the page draws itself. One filter/sort pipeline feeds both the card and table views, so a new facet is a few lines rather than a template rewrite</li>
+      <li><strong>Stdlib over libraries.</strong> Jinja2 is the only dependency. No pandas, no DataTables</li>
+    </ul>
 
     <h2>Quality and Confidence Checks</h2>
     <p class="descriptor">How the work was reviewed, tested, validated, simplified, or improved.</p>
+    <ul>
+      <li>96 automated tests, run on every change</li>
+      <li>Rendering tests parse the embedded JSON back out rather than asserting on markup, so they survive a redesign — the old tests asserted the exact table HTML and all had to be rewritten when the page changed</li>
+      <li>An injection test: a connection whose notes contain <code>&lt;/script&gt;</code> must not break the page</li>
+      <li>The rebuilt page was loaded in a real browser and exercised — search, chips, sorting, both views, mobile width, dark mode — not just generated and eyeballed</li>
+    </ul>
 
     <h2>What Worked Well</h2>
     <p class="descriptor">The AI-assisted patterns or workflows that produced useful results.</p>
+    <ul>
+      <li><strong>Show, don't specify.</strong> Handing over a working artifact I already liked and saying "like this, for this data" produced a better result faster than a written brief</li>
+      <li><strong>Blunt feedback.</strong> "It is ugly and has no functionality" was more useful than a polite list of tweaks</li>
+      <li><strong>Testing in the real environment.</strong> Three genuine bugs — a blank page, headers painting behind rows, a table sliding under the header — were invisible in the source and obvious in the browser</li>
+    </ul>
 
     <h2>What Needed Caution</h2>
     <p class="descriptor">Where AI was weak, misleading, incomplete, overconfident, or required close supervision.</p>
+    <ul>
+      <li><strong>Correct is not the same as usable.</strong> The first version satisfied every requirement and every test, and was still not a thing I wanted to open</li>
+      <li><strong>Generated output can look right and be broken.</strong> The HTML was well-formed and rendered a blank white page — the escaping was wrong in a way no amount of reading the file would have revealed</li>
+      <li><strong>Tests can pin down the wrong thing.</strong> Assertions on exact markup made the test suite an obstacle to improving the page rather than a safety net for it</li>
+      <li><strong>Watch what a test actually protects.</strong> One rule banned every external URL in the name of working offline; it would also have blocked tappable profile links, which cost nothing offline. The rule needed narrowing to what it was really for</li>
+    </ul>
 
     <h2>Reusable Lessons</h2>
     <p class="descriptor">What could be applied to other projects, teams, or client situations.</p>
+    <ul>
+      <li>Point at an example you like. It is the highest-bandwidth instruction available</li>
+      <li>Say it plainly when the output is not good enough. The correction is cheap; living with a mediocre tool is not</li>
+      <li>Test the behaviour, not the markup — assert on the data and the outcome, so the surface can be redesigned without a test rewrite</li>
+      <li>Make the agent use the thing it built, in the environment it will run in</li>
+      <li>When a test blocks a good change, ask what it was protecting before deleting it</li>
+    </ul>
 
     <h2>Current Status and Next Steps</h2>
     <p class="descriptor">What is complete, what remains, and where the project could go next.</p>
+    <p>Working and in use. Latest run against the 2026-08-18 export: 761 connections, 96/96 tests passing. The HTML has search, facet filters (messaged / has notes / has contact details), a connection-year filter, four sort orders, and card and table views.</p>
+    <p>Next: pull LinkedWith data into the contact-merge project, so LinkedIn connections and everything else land in one contact list instead of two.</p>
 
     <h2>Bottom Line</h2>
     <p class="descriptor">The short version: what this project demonstrates about using AI responsibly and practically.</p>
     <div class="bottom-line">
-      <p style="margin:0;"></p>
+      <p style="margin:0;">A small personal tool, built quickly, that I actually use. The interesting part is not the parsing — it is that the first version was correct and unusable, and the fix was me saying so and pointing at something better. AI closed the distance fast; deciding the distance existed was the human job.</p>
     </div>
   </main>
 
   <footer class="meta">
-    <strong>LAST UPDATE:</strong> 2026-06-11
+    <strong>LAST UPDATE:</strong> 2026-08-19
   </footer>
 
 </div>
