@@ -4,6 +4,6 @@ tagline: A personal Python utility that parses a LinkedIn data export ZIP into a
 group: Utilities
 profile: Utility
 priority: 11
-status: Stable at v1.1 — 96/96 tests passing; HTML output rebuilt with search, facet filters and card/table views; latest data export 2026-08-18 (761 connections), run-when-needed.
-generated: 2026-08-19
+status: Stable, run-when-needed — 96/96 tests passing; last refresh 2026-09-09 (774 connections, 178 messaged); repo audited safe for public.
+generated: 2026-09-17
 ---
