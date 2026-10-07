@@ -1,0 +1,196 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LinkedWith Status</title>
+<style>
+  :root {
+    --bg: #f9fafb; --card: #fff; --line: #e5e7eb; --ink: #1e293b; --muted: #64748b;
+    --blue: #0077b5; --green: #16a34a; --amber: #d97706; --red: #dc2626; --code: #0f172a;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  header { background: var(--ink); border-bottom: 4px solid var(--blue); color: #fff; }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 16px; }
+  header .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding-top: 16px; padding-bottom: 16px; }
+  header h1 { margin: 0; font-size: 22px; letter-spacing: -.01em; }
+  header h1 span { color: #7cc4ea; }
+  header .tag { color: #cbd5e1; font-size: 14px; flex-basis: 100%; order: 3; margin-top: -4px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; align-items: center; }
+  .badge { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
+  .b-type { background: rgba(255,255,255,.1); color: #e2e8f0; border: 1px solid rgba(255,255,255,.2); }
+  .b-pass { background: var(--green); color: #fff; }
+  .b-warn { background: var(--amber); color: #fff; }
+  .b-date { color: #94a3b8; font-weight: 500; }
+  main { padding: 20px 0 8px; }
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .pill { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; font-size: 13px; }
+  .pill b { color: var(--muted); font-weight: 500; margin-right: 4px; }
+  .pill.ok { border-color: #bbf7d0; background: #f0fdf4; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    box-shadow: 0 1px 2px rgba(15,23,42,.04); padding: 16px 20px; margin-bottom: 16px; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--blue); margin: 0 0 10px; }
+  p { margin: 0 0 8px; }
+  ul { margin: 4px 0 8px; padding-left: 20px; }
+  li { margin: 2px 0; }
+  code { font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; background: #f1f5f9; padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+  pre { background: var(--code); color: #e2e8f0; border-radius: 8px; padding: 10px 14px; margin: 6px 0 12px;
+    font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-x: auto; }
+  pre .c { color: #64748b; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+  th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+  .tscroll { overflow-x: auto; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 720px) { .grid2 { grid-template-columns: 1fr; } }
+  /* How to Run — prominent */
+  .run { border: 2px solid var(--blue); }
+  .run h2 { font-size: 15px; }
+  .step { display: grid; grid-template-columns: 28px 1fr; gap: 10px; margin-bottom: 6px; }
+  .step .n { width: 24px; height: 24px; border-radius: 50%; background: var(--blue); color: #fff;
+    font-size: 13px; font-weight: 700; display: grid; place-items: center; margin-top: 1px; }
+  .step h3 { margin: 0 0 4px; font-size: 15px; }
+  .step > div { min-width: 0; }
+  .note { font-size: 13px; color: var(--muted); }
+  .opt { border-top: 1px dashed var(--line); padding-top: 10px; margin-top: 6px; }
+  .modules { background: #fcfcfd; color: #475569; }
+  .modules td:first-child { white-space: nowrap; }
+  .fresh { color: var(--green); font-weight: 600; }
+  .ideas { border-left: 4px solid var(--amber); }
+  .ideas h2 { color: var(--amber); }
+  .gotchas { display: grid; gap: 8px; }
+  .gotcha { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--red);
+    border-radius: 8px; padding: 8px 14px; font-size: 14px; }
+  .gotcha b { color: var(--ink); }
+  .flag { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 8px 12px; font-size: 13.5px; margin-top: 8px; }
+  footer { color: var(--muted); font-size: 12px; text-align: center; padding: 12px 16px 28px; }
+
+ .ai{display:flex;gap:14px;align-items:center}.ai svg{width:64px;height:auto;flex:none}
+ .muted{color:var(--muted);font-size:12px;margin-top:6px}
+ .g{color:var(--green);font-weight:600}.a{color:var(--amber);font-weight:600}.r{color:var(--red);font-weight:600}.gr{color:#94a3b8;font-weight:600}
+ @media (prefers-color-scheme: dark){:root{--bg:#0f172a;--card:#1e293b;--line:#334155;--ink:#e2e8f0;--muted:#94a3b8}
+  header{background:#020617}code{background:#0f172a}.pill.ok{background:#052e16;border-color:#166534}.flag{background:#422006;border-color:#854d0e}.modules{background:#1e293b;color:#cbd5e1}}
+</style>
+</head><body>
+<header><div class="wrap"><h1>Linked<span>With</span></h1>
+<div class="badges"><span class="badge b-type">Utility — run when needed</span><span class="badge b-pass">✓ 96/96 tests passing</span><span class="badge b-date">2026-10-06</span></div>
+<div class="tag">Turn LinkedIn exports into a sortable, offline-ready contact list</div></div></header>
+<main class="wrap">
+
+<div class="card ai"><svg viewBox="0 0 360 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI plus Process — Human-directed project notes">
+      <!-- open circle with endpoint dots -->
+      <path d="M 238.4 44.7 A 117 117 0 1 0 274.3 195.3"
+            fill="none" stroke="#16263d" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="238.4" cy="44.7" r="8" fill="#16263d"/>
+      <circle cx="274.3" cy="195.3" r="8" fill="#16263d"/>
+      <!-- wordmark -->
+      <text x="96" y="128" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+            font-size="72" font-weight="700" fill="#2e6ca4">AI</text>
+      <text x="186" y="128" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+            font-size="64" font-weight="700" fill="#1c7c74">+</text>
+      <text x="92" y="182" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+            font-size="38" font-weight="700" letter-spacing="1.5" fill="#16263d">PROCESS</text>
+      <!-- dotted line and arrow -->
+      <circle cx="122" cy="212" r="4.5" fill="#1c7c74"/>
+      <circle cx="140" cy="212" r="4.5" fill="#1c7c74"/>
+      <circle cx="158" cy="212" r="4.5" fill="#1c7c74"/>
+      <circle cx="176" cy="212" r="4.5" fill="#1c7c74"/>
+      <g stroke="#3a8a3f" stroke-width="5" stroke-linecap="round" fill="none">
+        <line x1="194" y1="212" x2="232" y2="212"/>
+        <polyline points="220,200 234,212 220,224"/>
+      </g>
+      <!-- tagline -->
+      <text x="180" y="312" text-anchor="middle"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+            font-size="24" fill="#243240">Human-directed project notes</text>
+    </svg><div><h2 style="margin:0 0 4px">AI+PROCESS</h2><p>How this project is run with Claude. Last update 2026-08-19.</p><a href="../../AI+PROCESS.html">View page →</a></div></div>
+
+<div class="pills">
+<div class="pill"><b>Stack</b>Python 3.11+ · stdlib + Jinja2 · uv</div>
+<div class="pill"><b>Hosting</b>None — local script, static HTML output</div>
+<div class="pill"><b>Milestone</b>Not tracked (no PLAN.md)</div>
+<div class="pill"><b>Tasks</b>0 documented (no TASKS.md) · 3 open items in diary</div>
+<div class="pill ok"><b>Tests</b>96 passed in 1.9s (run today)</div>
+<div class="pill"><b>Newest export</b>Complete, 2026-09-19 · 17 days old</div>
+</div>
+
+<div class="card"><h2>Purpose</h2><p>Parse a LinkedIn data export ZIP into one self-contained, sortable HTML contact list that merges connections, message history and user-added contact info, viewable offline on a phone.</p><p class="muted">Source: CLAUDE.md (Project), README.md — PROJECT.md not yet documented</p></div>
+
+<div class="card"><h2>Since last status (2026-09-17)</h2><ul>
+<li><b>Data refresh (2026-09-20):</b> ran on the 2026-09-19 Complete export — store now 781 connections (+7 new), 180 messaged, 3 with notes, 13 with email or phone; 23 no longer in the export (kept). Output verified in Chrome, no console errors.</li>
+<li><b>Verification (2026-09-24):</b> store and HTML confirmed to reflect the 09-19 export; one probable duplicate found (same person under two profile-URL slugs).</li>
+<li><b>Public-repo audit (2026-09):</b> nothing needed removing; optional <code>*.json</code> gitignore safeguard suggested.</li>
+<li><b>Config (2026-10-06):</b> per-repo <code>/project-status</code> command replaced by the global skill + <code>## Project status</code> block in CLAUDE.md.</li>
+<li>New decisions / milestone / Now-list / targets: none — no protocol files to change.</li>
+</ul><p class="muted">Source: project/diary/diary-2026-09.md, diary-2026-10.md, git log, prior page status-2026-09-17.html</p></div>
+
+<div class="card"><h2>Current milestone</h2><p>Not yet documented — no PLAN.md. The repo is run-when-needed; working convention is diary + STATUS-SUMMARY instead of protocol files.</p><p class="muted">Source: repo file listing</p></div>
+
+<div class="grid2">
+<div class="card"><h2>Health</h2><ul>
+<li><span class="g">●</span> Pipeline works — last run 2026-09-20, verified 2026-09-24</li>
+<li><span class="g">●</span> Tests: 96/96 passing (today)</li>
+<li><span class="a">●</span> Newest export 17 days old (fresh ≤60 days)</li>
+<li><span class="a">●</span> 3 older export zips in <code>data/</code> are delete candidates</li>
+</ul><p class="muted">Source: pytest, ls data/ (names/dates only), diary-2026-09.md</p></div>
+<div class="card"><h2>Working / in progress / known issues</h2><ul>
+<li><b>Working:</b> parse → merge → render; cards + table views, search, facet chips, year filter, sort.</li>
+<li><b>In progress:</b> nothing active.</li>
+<li><b>Known issues:</b> ~10 “no URL” warnings per run (blank CSV rows, noisy); 23 dropped-out connections silent in the store; 1 probable duplicate from a slug change.</li>
+</ul><p class="muted">Source: diary-2026-09.md — STATE.md not yet documented</p></div>
+</div>
+
+<div class="card"><h2>Task board</h2><table><tr><th>Now</th><th>Next</th><th>Later</th></tr><tr>
+<td>— (0 documented)</td>
+<td>Collapse “no URL” warnings into one summary line · decide whether to surface dropped-out connections · merge duplicate keys on slug change</td>
+<td>Ideas, not commitments: network-analysis guide, network-intelligence prompt, warm-path discovery</td></tr></table><p class="muted">Source: diary-2026-09.md open items (derived), project/ideas/*.md — TASKS.md not yet documented</p></div>
+
+<div class="card run"><h2>How to run</h2>
+<div class="step"><div class="n">1</div><div><h3>Request the export</h3><p class="note">LinkedIn → Settings &amp; Privacy → Data Privacy → Get a copy of your data. Basic archive is enough.</p></div></div>
+<div class="step"><div class="n">2</div><div><h3>Drop the ZIP into data/</h3><pre>mv ~/Downloads/*_LinkedInDataExport_*.zip data/</pre></div></div>
+<div class="step"><div class="n">3</div><div><h3>Run</h3><pre>uv run python linkedwith.py data/&lt;zip&gt;.zip   <span class="c"># or /linkedwith</span></pre></div></div>
+<div class="step"><div class="n">4</div><div><h3>Open</h3><pre>open output/LinkedWith.HTML</pre><p class="note">Optional contact info: <code>data/contact_info.csv</code> (URL, First/Last Name, Email, Phone, Notes).</p></div></div>
+<p class="muted">Source: CLAUDE.md Project Reference</p></div>
+
+<div class="card"><h2>Improvements</h2><ul>
+<li>One summary line instead of per-row “no URL” warnings.</li>
+<li>Show dropped-out connections in the HTML (badge or filter chip).</li>
+<li>Detect URL-slug changes so one person isn't stored under two keys.</li>
+<li>Add <code>*.json</code> to .gitignore repo-wide as a PII safeguard.</li>
+</ul><p class="muted">Source: diary-2026-09.md (derived)</p></div>
+
+<div class="card modules"><h2>Library modules</h2><div class="tscroll"><table><tr><th>Module</th><th>Role</th></tr>
+<tr><td><code>config.py</code></td><td>Paths, env overrides</td></tr>
+<tr><td><code>extractor.py</code></td><td>Read CSVs from the ZIP</td></tr>
+<tr><td><code>parsers.py</code></td><td>Connections / messages parsing</td></tr>
+<tr><td><code>normalizer.py</code></td><td>URL + field normalisation</td></tr>
+<tr><td><code>messages.py</code></td><td>Message-history aggregation</td></tr>
+<tr><td><code>contacts.py</code></td><td>contact_info.csv merge</td></tr>
+<tr><td><code>store.py</code></td><td>JSON store, atomic write</td></tr>
+<tr><td><code>renderer.py</code></td><td>Jinja2 HTML output</td></tr></table></div><p class="muted">Source: ls lib/ (roles derived from module names)</p></div>
+
+<div class="card"><h2>Data state</h2><table><tr><th>File</th><th>Date</th><th>State</th></tr>
+<tr><td>Complete export 09-19-2026</td><td>2026-09-20</td><td class="g">Newest — fresh (17 days)</td></tr>
+<tr><td>Basic export 09-09-2026</td><td>2026-09-09</td><td class="a">Delete candidate</td></tr>
+<tr><td>Complete export 08-18-2026</td><td>2026-08-18</td><td class="a">Delete candidate</td></tr>
+<tr><td>Basic export 08-17-2026</td><td>2026-08-17</td><td class="a">Delete candidate</td></tr></table>
+<p class="note">Store and output listed by date only; contents never read.</p><p class="muted">Source: ls data/ output/</p></div>
+
+<div class="card"><h2>Recent decisions</h2><p>0 documented — no DECISIONS.md. Diary records none for 2026-09-20 (“a data refresh, no choices made”).</p><p class="muted">Source: diary-2026-09.md</p></div>
+
+<div class="card"><h2>Risks</h2><table><tr><th>Risk</th><th>Severity</th><th>Next move</th></tr>
+<tr><td>PII reaching the public repo (diary or stray JSON outside <code>data/</code>)</td><td class="a">Medium</td><td>Keep diary/status aggregate-only; add repo-wide <code>*.json</code> ignore; Rob reviews committed diary text</td></tr>
+<tr><td>Store drift: dropped-out and duplicate-slug records accumulate silently</td><td class="a">Low</td><td>Surface them in the HTML; add slug-change dedup</td></tr>
+<tr><td>Old export zips pile up in <code>data/</code></td><td class="gr">Low</td><td>Delete the 3 older zips when Rob is happy</td></tr></table><p class="muted">Source: diary-2026-09.md, CLAUDE.md Sensitivity (derived)</p></div>
+
+<div class="card"><h2>Source freshness</h2><table><tr><th>Source</th><th>Last change</th><th></th></tr>
+<tr><td>CLAUDE.md</td><td>2026-10-06</td><td class="g">current</td></tr>
+<tr><td>project/diary/diary-2026-10.md</td><td>2026-10-06 (uncommitted)</td><td class="g">current</td></tr>
+<tr><td>project/diary/diary-2026-09.md</td><td>2026-09-24</td><td class="g">current</td></tr>
+<tr><td>README.md</td><td>2026-08-19</td><td class="a">48 days behind</td></tr>
+<tr><td>AI+PROCESS.html</td><td>2026-08-19</td><td class="a">48 days behind</td></tr>
+<tr><td>project/ideas/*.md (3)</td><td>2026-06-08</td><td class="r">120 days behind</td></tr>
+<tr><td>PROJECT / PLAN / STATE / TASKS / DECISIONS</td><td>—</td><td class="gr">not present (convention: diary)</td></tr></table>
+<p class="note">Newest source: today — repo active.</p><p class="muted">Source: git log -1 --format=%cs per file</p></div>
+
+</main>
+<footer>Generated 2026-10-06 · derived from CLAUDE.md, README.md, AI+PROCESS.html, project/diary/diary-2026-09.md + diary-2026-10.md, project/ideas/*.md, prior page status-2026-09-17.html, git log, pytest, ls lib/ data/ output/.<br>
+Colours: red = blocks use / high-severity security / no owner or next action · amber = known gap with accepted next action · green = shipped and recently verified · grey = deliberately deferred. Sensitivity: pii — aggregate counts only.</footer>
+</body></html>
