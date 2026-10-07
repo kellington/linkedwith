@@ -1,5 +1,11 @@
 # LinkedWith
 
+## Sensitivity
+
+Public repo; contact data is PII. Never commit exports, enriched data or
+generated contact HTML; status pages and summaries stay aggregate-only (counts,
+never names).
+
 ## METADATA
 - LinkedIn does not provide an official "metadata page" detailing all export files and CSV column structures. Users typically explore the files manually after download.
 
@@ -71,3 +77,58 @@ A personal LinkedIn data tool that parses exported LinkedIn data (ZIP download) 
 - Key each contact by their LinkedIn profile URL (unique, stable identifier)
 - Merge new connections — update fields if changed, preserve user-added fields (email, phone, notes)
 - Write updated store back atomically (write to `.tmp`, then rename)
+
+## Project status
+
+Run `/project-status` (global skill, `~/.claude/skills/project-status/`). Metadata
+comes from the workspace README; repo config is below.
+
+```yaml
+name: LinkedWith
+sensitivity: pii
+never_read:
+  - data/
+  - output/
+extra_sources:
+  - README.md
+  - project/ideas/*.md
+palette: { primary: "#1e293b", accent: "#0077b5" }
+custom_sections: |
+  - Health = current pytest result (`uv run pytest --tb=no -q | tail -3`), never the last recorded count.
+  - Data state: newest export zip in data/ by name and date only (`ls`), plus older zips as delete candidates; fresh ≤60 days, stale >90. No store contents.
+  - Library modules table from `ls lib/`. Ideas from project/ideas/ framed "ideas, not commitments".
+```
+
+## Project Reference
+
+### How to run (when a new export arrives)
+
+1. **Request the export:** LinkedIn → Settings & Privacy → Data Privacy → Get a
+   copy of your data → "Download larger data archive" (~15 min; messages can take
+   longer). The "Basic" archive also has `Connections.csv` + `messages.csv`, which
+   is enough.
+2. **Drop the ZIP into `data/`:** `mv ~/Downloads/*_LinkedInDataExport_*.zip data/`
+3. **Run:** `uv run python linkedwith.py data/<zip-filename>.zip` — or invoke the
+   `/linkedwith` Claude Skill (`.claude/skills/linkedwith/`).
+4. **Open the output:** `open output/LinkedWith.HTML` (Mac), or copy to iPhone and
+   open in the "HTML Preview" app.
+
+**Optional contact info:** edit `data/contact_info.csv` (columns: URL, First Name,
+Last Name, Email, Phone, Notes; all optional per row). Match order: normalized URL
+first, then case-insensitive First + Last name (skipped with a warning on 0 or 2+
+matches). Re-run to merge; stored as `user_email` / `user_phone` / `user_notes`.
+
+**Paths** (overridable via env, see `lib/config.py`): store `data/linkedwith.json`,
+contact info `data/contact_info.csv`, output `output/LinkedWith.HTML`. All gitignored.
+
+### Tests
+
+`uv run pytest`
+
+### Local preview tip
+
+The Chrome tool can't open `file://` URLs. To eyeball a page, serve its folder with
+`python3 -m http.server <free port> --bind 127.0.0.1` (8765 is often taken), then
+stop the server and close the tab.
+
+Constraints are under "Project → Constraints" above.
